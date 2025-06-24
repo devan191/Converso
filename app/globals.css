@@ -1,45 +1,69 @@
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "./base.css";
+@import "./animations.css";
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --primary: #fe5933;
-
-  --cta: #2c2c2c;
-  --cta-gold: #fccc41;
-  --radius: 0.625rem;
-  --background: #f9f9f9;
+  /* Modern vibrant primary with more pop */
+  --primary: #7c3aed; /* Purple */
+  
+  /* Enhanced call-to-action colors */
+  --cta: #111827;
+  --cta-gold: #fbbf24;
+  --radius: 1rem; /* More rounded corners for modern look */
+  
+  /* Light mode base colors */
+  --background: #f8fafc;
   --foreground: oklch(0.145 0 0);
+  
+  /* Card styles */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  
+  /* Popover styles */
+  --popover: oklch(1 0 0 / 0.98);
   --popover-foreground: oklch(0.145 0 0);
+  
+  /* Button colors */
   --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
+  
+  /* Secondary UI elements */
+  --secondary: oklch(0.96 0.03 275); /* Subtle purple */
+  --secondary-foreground: oklch(0.145 0 0);
+  
+  /* Muted UI elements */
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
+  
+  /* Accent elements */
+  --accent: oklch(0.97 0.04 275); /* Very light purple */
+  --accent-foreground: oklch(0.145 0 0);
+  
+  /* Utility colors */
+  --destructive: oklch(0.65 0.3 30);
+  --border: oklch(0.89 0.01 275);
+  --input: oklch(0.89 0.01 275);
+  --ring: oklch(0.7 0.15 275);
+  
+  /* Chart colors - modern palette */
+  --chart-1: oklch(0.65 0.2 275); /* Purple */
+  --chart-2: oklch(0.6 0.2 220); /* Blue */
+  --chart-3: oklch(0.65 0.2 190); /* Teal */
+  --chart-4: oklch(0.65 0.18 150); /* Green */
+  --chart-5: oklch(0.65 0.25 60); /* Yellow */
+  
+  /* Sidebar styling */
+  --sidebar: oklch(0.99 0.01 275);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: oklch(0.7 0.25 275);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar-accent: oklch(0.95 0.04 275);
+  --sidebar-accent-foreground: oklch(0.145 0 0);
+  --sidebar-border: oklch(0.89 0.01 275);
+  --sidebar-ring: oklch(0.7 0.15 275);
 }
 
 @theme inline {
@@ -85,11 +109,34 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-body {
+html:not(.dark) body {
   font-family: var(--font-bricolage);
+  background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+  transition: all 0.4s ease;
+  overflow-x: hidden;
+  position: relative;
+  
+  /* Modern mesh grid background */
+  background-size: 100px 100px;
+  background-image: 
+    linear-gradient(to right, rgba(74, 22, 222, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(74, 22, 222, 0.03) 1px, transparent 1px);
 }
 
-.dark {
+html.dark body {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  color: var(--foreground);
+  
+  /* Dark mode mesh grid background */
+  background-size: 100px 100px;
+  background-image: 
+    linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+}
+
+html.dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -125,87 +172,81 @@ body {
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring/50 transition-all duration-200;
   }
   body {
     @apply bg-background text-foreground;
   }
   main {
-    @apply mx-auto px-14 flex flex-col gap-8 bg-background h-full max-w-[1400px] pt-10 max-sm:px-2 mb-5;
+    @apply mx-auto px-14 flex flex-col gap-8 bg-background h-full max-w-[1400px] pt-10 max-sm:px-2 mb-5 rounded-3xl shadow-2xl;
   }
   h1 {
-    @apply text-3xl font-bold;
+    @apply text-4xl font-extrabold tracking-tight;
   }
 }
 
 @layer components {
   .home-section {
-    @apply flex gap-4 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center;
+    @apply flex gap-6 justify-between items-start w-full max-lg:flex-col-reverse max-lg:items-center;
   }
   .companions-grid {
-    @apply flex flex-wrap gap-4 w-full max-md:justify-center justify-between;
+    @apply flex flex-wrap gap-8 w-full max-md:justify-center justify-between;
   }
   .companion-card {
-    @apply flex flex-col rounded-4xl border border-black px-4 py-4 gap-5 w-full min-lg:max-w-[410px] justify-between;
+    @apply flex flex-col rounded-3xl border border-black/10 px-8 py-8 gap-6 w-full min-lg:max-w-[410px] justify-between shadow-2xl hover:scale-[1.03] hover:shadow-2xl transition-all duration-300 bg-white/90 backdrop-blur-lg;
   }
   .subject-badge {
-    @apply bg-black text-white rounded-4xl text-sm px-2 py-1 capitalize;
+    @apply bg-black text-white rounded-full text-xs px-4 py-1.5 capitalize shadow-md font-semibold tracking-wide;
   }
   .companion-bookmark {
-    @apply px-2 bg-black rounded-4xl flex items-center h-full aspect-square cursor-pointer;
+    @apply p-2.5 bg-black/90 rounded-full flex items-center justify-center h-full aspect-square cursor-pointer hover:bg-primary hover:scale-110 transition-all duration-200;
   }
   .input {
-    @apply !border-black !bg-white focus-visible:!ring-0 focus-visible:!border-black !w-full;
+    @apply !border-black/20 !bg-white focus-visible:!ring-1 focus-visible:!ring-primary/50 focus-visible:!border-primary !w-full rounded-xl shadow-sm;
   }
   .rounded-border {
-    @apply rounded-4xl border border-black;
+    @apply rounded-3xl border border-black/10;
   }
   .cta-section {
-    @apply bg-cta text-white rounded-4xl px-7 py-10 flex flex-col items-center text-center gap-5 w-1/3 max-lg:w-1/2 max-md:w-full;
+    @apply bg-gradient-to-br from-cta to-cta/90 text-white rounded-3xl px-10 py-12 flex flex-col items-center text-center gap-6 w-1/3 max-lg:w-1/2 max-md:w-full shadow-2xl border border-white/10;
   }
   .cta-badge {
-    @apply bg-cta-gold rounded-4xl px-3 py-1.5 text-black;
+    @apply bg-cta-gold rounded-full px-5 py-2 text-black font-bold shadow-lg;
   }
   .btn-primary {
-    @apply bg-primary text-white rounded-xl cursor-pointer px-4 py-2 flex items-center gap-2;
-  }
-  .navbar {
-    @apply flex items-center justify-between mx-auto w-full px-14 py-4 bg-white max-sm:px-4;
+    @apply bg-gradient-to-r from-primary to-orange-500 text-white rounded-full cursor-pointer px-7 py-3.5 flex items-center gap-3 shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 font-semibold text-base;
+  }  .navbar {
+    @apply backdrop-blur-md bg-white/90 flex items-center justify-between mx-auto w-full px-6 py-4 md:px-12 md:py-5 rounded-2xl shadow-lg sticky top-4 z-50 border border-black/5;
   }
   .btn-signin {
-    @apply border border-black rounded-4xl px-4 py-2.5 text-sm font-semibold flex items-center gap-2 cursor-pointer;
+    @apply border border-black/10 rounded-full px-4 sm:px-6 py-2.5 md:py-3 text-sm font-semibold flex items-center gap-2 sm:gap-2.5 cursor-pointer bg-primary text-white shadow-md hover:bg-orange-600 hover:shadow-lg transition-all duration-300;
   }
   .companion-list {
-    @apply rounded-4xl border border-black px-7 pt-7 pb-10 max-lg:w-full bg-white;
+    @apply rounded-3xl border border-black/10 px-8 pt-8 pb-12 max-lg:w-full bg-white/90 backdrop-blur-md shadow-xl;
   }
   .companion-limit {
-    @apply items-center justify-center flex flex-col gap-4 w-full min-2xl:w-1/2 pt-20 text-center;
+    @apply items-center justify-center flex flex-col gap-8 w-full min-2xl:w-1/2 pt-20 text-center;
   }
-
   .companion-section {
-    @apply border-2 border-orange-500 w-2/3 max-sm:w-full flex flex-col gap-4 justify-center items-center rounded-lg;
+    @apply border border-orange-400/30 w-2/3 max-sm:w-full flex flex-col gap-6 justify-center items-center rounded-3xl shadow-xl bg-white/80 backdrop-blur-md;
   }
-
   .companion-avatar {
-    @apply size-[300px] flex items-center justify-center rounded-lg max-sm:size-[100px] mt-4;
+    @apply size-[300px] flex items-center justify-center rounded-full max-sm:size-[120px] mt-6 shadow-xl border-4 border-primary/20;
   }
   .companion-lottie {
-    @apply size-[300px] max-sm:size-[100px];
+    @apply size-[280px] max-sm:size-[100px];
   }
-
   .user-section {
-    @apply flex flex-col gap-4 w-1/3 max-sm:w-full max-sm:flex-row;
+    @apply flex flex-col gap-6 w-1/3 max-sm:w-full max-sm:flex-row;
   }
   .user-avatar {
-    @apply border-2 border-black flex flex-col gap-4 items-center rounded-lg py-8 max-sm:hidden;
+    @apply border border-black/10 flex flex-col gap-4 items-center rounded-3xl py-8 max-sm:hidden shadow-lg bg-white/90 backdrop-blur-md;
   }
-
   .btn-mic {
-    @apply border-2 border-black rounded-lg flex flex-col gap-2 items-center py-8 max-sm:py-2 cursor-pointer w-full;
+    @apply border border-black/10 rounded-full flex flex-col gap-2 items-center py-8 max-sm:py-3 cursor-pointer w-full shadow-md hover:bg-primary hover:text-white transition-all duration-300 backdrop-blur-md bg-white/90;
   }
-
   .transcript {
-    @apply relative flex flex-col gap-4 w-full items-center pt-10 flex-grow overflow-hidden;
+    @apply relative flex flex-col gap-6 w-full items-center pt-10 flex-grow overflow-hidden;
   }
   .transcript-message {
     @apply overflow-y-auto w-full flex flex-col gap-4 max-sm:gap-2 pr-2 h-full text-2xl;
@@ -213,6 +254,61 @@ body {
   .transcript-fade {
     @apply pointer-events-none absolute bottom-0 left-0 right-0 h-40 max-sm:h-20 bg-gradient-to-t from-background via-background/90 to-transparent z-10;
   }
+  .dark .companion-card {
+    @apply bg-black/60 border-white/10 text-white shadow-2xl backdrop-blur-lg;
+  }
+  .dark .navbar {
+    @apply bg-black/60 border-white/10 text-white shadow-2xl backdrop-blur-lg;
+  }
+  .dark .btn-primary {
+    @apply bg-gradient-to-r from-primary to-orange-500 text-white hover:brightness-110;
+  }
+  .dark .subject-badge {
+    @apply bg-white text-black shadow-lg;
+  }
+  .dark .btn-signin {
+    @apply bg-primary text-white border-white/10 hover:bg-orange-500;
+  }
+  .dark .companion-list {
+    @apply bg-black/60 border-white/10;
+  }
+  .dark .user-avatar {
+    @apply bg-black/60 border-white/10;
+  }
+  .dark .btn-mic {
+    @apply bg-black/60 border-white/10 hover:bg-primary;
+  }
+  .dark .companion-section {
+    @apply bg-black/60 border-white/10;
+  }
+}
+
+/* Navbar theme toggle button */
+.navbar-theme-toggle {
+  background: linear-gradient(135deg, #fff 0%, #f5f5f5 100%);
+  border-radius: 9999px;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.1);
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.navbar-theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px 0 rgba(0,0,0,0.15);
+}
+.dark .navbar-theme-toggle {
+  background: linear-gradient(135deg, #272936 0%, #1f2029 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Remove the floating theme toggle button as we now have it in the navbar */
+.theme-toggle {
+  display: none;
 }
 
 @layer utilities {
@@ -222,5 +318,11 @@ body {
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .bg-mesh {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+  }
+  .bg-mesh-dark {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
   }
 }

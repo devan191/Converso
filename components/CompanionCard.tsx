@@ -33,36 +33,69 @@ const CompanionCard = ({
     }
   };
   return (
-    <article className="companion-card" style={{ backgroundColor: color }}>
+    <article
+      className="flex flex-col rounded-2xl border border-violet-500/10 px-6 py-6 gap-4 w-full justify-between shadow-lg hover:shadow-xl hover:shadow-violet-500/10 hover:scale-[1.02] transition-all duration-300 bg-white/80 dark:bg-black/40 backdrop-blur-sm hover-lift"
+      style={{
+        borderLeft: `4px solid ${color}`,
+      }}
+    >
       <div className="flex justify-between items-center">
-        <div className="subject-badge">{subject}</div>
-        <button className="companion-bookmark" onClick={handleBookmark}>
+        <div
+          className="bg-black/80 dark:bg-white/10 text-white dark:text-white/90 rounded-full text-xs px-4 py-1.5 capitalize shadow-md font-semibold tracking-wide backdrop-blur-sm"
+          style={{ backgroundColor: color }}
+        >
+          {subject}
+        </div>
+        <button
+          className="p-2 rounded-full flex items-center justify-center h-8 w-8 aspect-square cursor-pointer hover:bg-violet-600 hover:scale-110 transition-all duration-200 backdrop-blur-sm animate-pulse-slow"
+          style={{ backgroundColor: `${color}CC` }}
+          onClick={handleBookmark}
+        >
           <Image
             src={
               bookmarked ? "/icons/bookmark-filled.svg" : "/icons/bookmark.svg"
             }
             alt="bookmark"
-            width={12.5}
-            height={15}
+            width={14}
+            height={16}
+            className="transition-transform duration-300 hover:scale-110"
           />
         </button>
       </div>
 
-      <h2 className="text-2xl font-bold">{name}</h2>
-      <p className="text-sm">{topic}</p>
+      <h2 className="text-2xl font-bold tracking-tight">{name}</h2>
+      <p className="text-sm text-black/70 dark:text-white/70">{topic}</p>
       <div className="flex items-center gap-2">
-        <Image
-          src="/icons/clock.svg"
-          alt="duration"
-          width={13.5}
-          height={13.5}
-        />
-        <p className="text-sm">{duration} minutes</p>
+        <div
+          className="p-1.5 rounded-full"
+          style={{ backgroundColor: `${color}40` }}
+        >
+          <Image src="/icons/clock.svg" alt="duration" width={14} height={14} />
+        </div>
+        <p className="text-sm font-medium">{duration} minutes</p>
       </div>
 
       <Link href={`/companions/${id}`} className="w-full">
-        <button className="btn-primary w-full justify-center">
+        <button
+          className="btn-primary w-full justify-center group"
+          style={{ background: color }}
+        >
           Launch Lesson
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          >
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
         </button>
       </Link>
     </article>
