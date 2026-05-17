@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import { SignInButton, Show, UserButton } from "@clerk/nextjs";
 import NavItems from "@/components/NavItems";
 import ThemeToggle from "@/components/ThemeToggle";
 
@@ -36,7 +38,7 @@ const Navbar = () => {
         <div className="flex items-center justify-center">
           <ThemeToggle />
         </div>{" "}
-        <SignedOut>
+        <Show when="signed-out">
           <SignInButton>
             <button className="border border-black/10 dark:border-white/10 rounded-full px-4 sm:px-6 py-2.5 md:py-3 text-sm font-semibold flex items-center gap-2 sm:gap-2.5 cursor-pointer bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-md hover:shadow-lg hover:from-indigo-600 hover:to-violet-600 transition-all duration-300">
               <Image
@@ -49,10 +51,10 @@ const Navbar = () => {
               <span>Sign In</span>
             </button>
           </SignInButton>
-        </SignedOut>
-        <SignedIn>
+        </Show>
+        <Show when="signed-in">
           <UserButton afterSignOutUrl="/" />
-        </SignedIn>
+        </Show>
       </div>
     </nav>
   );
